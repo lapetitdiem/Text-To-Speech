@@ -1,15 +1,19 @@
-from flask import Flask, render_template, request,send_from_directory
-from Text_To_Speech.convert import textToSpeech
+from flask import Flask, render_template, request,send_from_directory, session
+from To_Speech.convert import textToSpeech
 import os
 app = Flask(__name__)
 @app.route('/')
 def index():
-    return render_template('givenText.html')
+    history = session.get('history',[])
+    return render_template('givenText.html',history = history)
 
 @app.route('/convertToSpeech', methods=['POST'])
 def result() :
     textInput = request.form['textInput']
     mp3_path = textToSpeech(textInput)
+    # history = session.get('history',[])
+    # history.append(textInput)
+    # session['history'] = history
     return render_template('inputResult.html', data =textInput, mp3_filename=mp3_path)
 
 @app.route('/MP3/<filename>')

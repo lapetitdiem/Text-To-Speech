@@ -1,23 +1,30 @@
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: #f8f9fa;
     font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     height: 100vh;
     margin: 0;
 }
 
-.form-wrapper {
-    width: 400px;
-    margin: 50px auto;
+.content-container {
+    margin-top: 20px;
+}
+
+.form-wrapper,
+.history-wrapper {
     padding: 20px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: relative;
 }
 
+.form-wrapper {
+    position: relative;
+    margin-left: 20px;
+    flex: 1;
+}
 h1 {
     color: #8AAAE5;
     margin-bottom: 20px;
@@ -84,4 +91,14 @@ h1 {
     display: none;
     justify-content: center;
     align-items: center;
+}
+
+.history-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.history-item {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
 }
