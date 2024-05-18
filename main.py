@@ -1,28 +1,27 @@
-from gtts import gTTS
-from langdetect import detect
+from flask import Flask, render_template, request,send_from_directory, session
+from To_Speech.convert import textToSpeech
+from datetime import datetime
 import os
-import pygame
+app = Flask(__name__)
+app.secret_key = '04468aff0e3acbb6c65b62e4150e227d'
+@app.route('/')
+def index():
+    history = session.get('history',[])
+    return render_template('givenText.html',history = history)
 
-from flask import Flask, render_template, request
+@app.route('/convertToSpeech', methods=['POST'])
+def result() :
+    textInput = request.form['textInput']
+    mp3_path = textToSpeech(textInput)
+    history = session.get('history',[])
+    history.append(textInput)
+    session['history'] = history
+    return render_template('inputResult.html', data =textInput, mp3_filename=mp3_path)
 
+@app.route('/MP3/<filename>')
+def serve_mp3(filename):
+    print(os.path.join(app.root_path,'MP3',filename))
+    return send_from_directory(os.path.join(app.root_path,'MP3'),filename)
 
-given_text = 'this is a test voice'
-detect_language = detect(given_text)
-tts = gTTS(given_text, lang=detect_language, slow=False)
-
-current_directory = os.path.dirname(__file__)
-
-parent_folder = os.path.join(current_directory, 'MP3')
-# # Specify the file path
-speech_file = os.path.join(parent_folder, 'tts.mp3')
-
-# Save the speech file
-tts.save(speech_file)
-pygame.init()
-pygame.mixer.music.load(speech_file)
-pygame.mixer.music.play()
-
-while pygame.mixer.music.get_busy():
-    pygame.time.Clock().tick(10)
-
-pygame.quit()
+if __name__ == "__main__":
+    app.run(debug=True)

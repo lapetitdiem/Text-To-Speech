@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech Converter</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/givenText.css">
+</head>
+<body>
+    <div class="content-container">
+        <div class="row">
+            <div class="col-md-4 history-wrapper">
+                <h1>Conversion History</h1>
+                <ul class="history-list" id="historyList">
+                    {% for item in history %}
+                    <li class="history-item">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-md-8 form-wrapper">
+                <form id="textForm" action="/convertToSpeech" method="post">
+                    <h1>Converter</h1>
+                    <input type="text" name="textInput" class="input-text" placeholder="Enter text here..." required>
+                    <button type="submit" class="btn-custom">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="loading-overlay">
+            <div class="loading-overlay"></div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("textForm").addEventListener("submit", function () {
+            document.querySelector(".loading-overlay").style.display = "flex";
+        });
+    </script>
+</body>
+</html>
