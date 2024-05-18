@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/inputResult.css">
+</head>
+<body onload="playAudio()">
+    <div class="container">
+        <div class="card">
+            <h1 class="text-center">Converted Text</h1>
+            <p class="card-result">{{ data }}</p>
+            <h2>Speech Output</h2>
+            <div class="audio-container">
+                <audio id="audioPlayer" controls autoplay class="w-100">
+                    <source src="{{ url_for('serve_mp3', filename=mp3_filename) }}" type="audio/mpeg">
+                </audio>
+            </div>
+            <div class="text-center mt-4">
+                <button class="btn-custom" onclick="playAudio()">Play Again</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function playAudio() {
+            var audio = document.getElementById("audioPlayer");
+            audio.play();
+        }
+    </script>
+</body>
+</html>
